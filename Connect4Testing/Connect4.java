@@ -72,6 +72,25 @@ public class Connect4 {
     return false;
   }
 
+  public boolean removeChip(int column) {
+    if (column >= board[0].length || column < 0) {
+      return false;
+    }
+    int position = -1;
+    for (int i = 0; i < board.length; i++) {
+      if (board[i][column] == '0') {
+        position = i;
+      }
+    }
+    position += 1;
+    if (position < board.length) {
+      board[position][column] = '0';
+      toggleTurn();
+      return true;
+    }
+    return false;
+  }
+
   public boolean someoneWon(char c) {
     for (int i = 0; i < board.length; i++) {
       for (int j = 0; j < board[i].length; j++) {
@@ -94,7 +113,7 @@ public class Connect4 {
       return false;
     }
     for (int i = 0; i < num + space; i++) {
-      if (i > num) {
+      if (i >= num) {
         if (board[x + xInc*i][y + yInc*i] != '0') {
           return false;
         }
@@ -117,6 +136,14 @@ public class Connect4 {
           else if (someoneWon(i, j, 0, 1, 4, 0)) score += 100;
           else if (someoneWon(i, j, -1, -1, 4, 0)) score += 100;
           else if (someoneWon(i, j, -1, 1, 4, 0)) score += 100;
+          else if (someoneWon(i, j, -1, 0, 3, 1)) score += 50;
+          else if (someoneWon(i, j, 0, 1, 3, 1)) score += 50;
+          else if (someoneWon(i, j, -1, -1, 3, 1)) score += 50;
+          else if (someoneWon(i, j, -1, 1, 3, 1)) score += 50;
+          else if (someoneWon(i, j, -1, 0, 2, 2)) score += 20;
+          else if (someoneWon(i, j, 0, 1, 2, 2)) score += 20;
+          else if (someoneWon(i, j, -1, -1, 2, 2)) score += 20;
+          else if (someoneWon(i, j, -1, 1, 2, 2)) score += 20;
         }
       }
     }
