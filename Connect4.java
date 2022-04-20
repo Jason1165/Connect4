@@ -89,6 +89,9 @@ public class Connect4 {
   }
 
   private boolean someoneWon(int x, int y, int xInc, int yInc, int num) {
+    if (x + xInc*num >= board.length || x + xInc*num < 0 || y + yInc*num >= board[x].length || y + yInc*num < 0) {
+      return false;
+    }
     for (int i = 0; i < num; i++) {
       if (!(board[x][y] == board[x + xInc*i][y + yInc*i])) {
         return false;
