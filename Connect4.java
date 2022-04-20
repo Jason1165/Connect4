@@ -50,7 +50,8 @@ public class Connect4 {
 
   public boolean insertChip(int column) {
     if (column >= board[0].length || column < 0) {
-      throw new IllegalArgumentException("Column " + column + " is not a valid column");
+      return false;
+      // throw new IllegalArgumentException("Column " + column + " is not a valid column");
     }
     int position = -1;
     for (int i = 0; i < board.length; i++) {
