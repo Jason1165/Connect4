@@ -4,6 +4,7 @@ int COLS;
 float circleSize;
 int RO;
 int CO;
+boolean v;
 
 void setup(){
   size(800, 800);
@@ -13,12 +14,18 @@ void setup(){
   CO = 100;
   game = new Connect4();
   circleSize = 100;
+  v = false;
 }
 
 void draw() {
   background(0, 0, 255);
   String [] lines = game.toString().split("\n");
   stringToCircle(lines);
+  if (game.someoneWon()) {
+    v = true;
+    if (frameCount % 500 == 0)
+      println("Someone Won, press R to Restart");
+  }
 }
 
 void stringToCircle(String[] lines) {
@@ -39,5 +46,19 @@ void stringToCircle(String[] lines) {
         ellipse(j*circleSize + circleSize/2 + RO, i*circleSize + circleSize/2 + CO, 7*circleSize/8, 7*circleSize/8);
       }
     }
+  }
+}
+
+void mouseClicked() {
+  if (!v) {
+    int mx = mouseX - RO;
+    println(mouseX);
+    game.insertChip(mx / 100);
+  }
+}
+
+void keyPressed() {
+  if (key == 'R' || key == 'r') {
+    setup();
   }
 }
