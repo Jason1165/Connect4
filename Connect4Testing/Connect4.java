@@ -109,7 +109,7 @@ public class Connect4 {
   }
 
   private boolean someoneWon(int x, int y, int xInc, int yInc, int num, int space) {
-    if (x + xInc*num >= board.length || x + xInc*num < 0 || y + yInc*num >= board[x].length || y + yInc*num < 0) {
+    if (x + xInc*(num+space) >= board.length || x + xInc*(num+space) < 0 || y + yInc*(num+space) >= board[x].length || y + yInc*(num+space) < 0) {
       return false;
     }
     for (int i = 0; i < num + space; i++) {
@@ -158,6 +158,17 @@ public class Connect4 {
       }
     }
     return score;
+  }
+
+  public ArrayList<Integer> availableColumns() {
+    ArrayList<Integer> available = new ArrayList<Integer>();
+    for (int i = 0; i < board[0].length; i++) {
+      if (insertChip(i)) {
+        removeChip(i);
+        available.add(i);
+      }
+    }
+    return available;
   }
 
 }
