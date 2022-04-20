@@ -133,17 +133,27 @@ public class Connect4 {
       for (int j = 0; j < board[0].length; j++) {
         if (board[i][j] == c) {
           if (someoneWon(i, j, -1, 0, 4, 0)) score += 100;
+          else if (someoneWon(i, j, 0, -1, 4, 0)) score += 100;
           else if (someoneWon(i, j, 0, 1, 4, 0)) score += 100;
           else if (someoneWon(i, j, -1, -1, 4, 0)) score += 100;
           else if (someoneWon(i, j, -1, 1, 4, 0)) score += 100;
           else if (someoneWon(i, j, -1, 0, 3, 1)) score += 50;
+          else if (someoneWon(i, j, 0, -1, 3, 1)) score += 50;
           else if (someoneWon(i, j, 0, 1, 3, 1)) score += 50;
           else if (someoneWon(i, j, -1, -1, 3, 1)) score += 50;
           else if (someoneWon(i, j, -1, 1, 3, 1)) score += 50;
           else if (someoneWon(i, j, -1, 0, 2, 2)) score += 20;
+          else if (someoneWon(i, j, 0, -1, 3, 1)) score += 20;
           else if (someoneWon(i, j, 0, 1, 2, 2)) score += 20;
           else if (someoneWon(i, j, -1, -1, 2, 2)) score += 20;
           else if (someoneWon(i, j, -1, 1, 2, 2)) score += 20;
+        }
+        else if (board[i][j] != '0'){
+          if (someoneWon(i, j, -1, 0, 3, 1)) score -= 50;
+          else if (someoneWon(i, j, 0, -1, 3, 1)) score -= 50;
+          else if (someoneWon(i, j, 0, 1, 3, 1)) score -= 50;
+          else if (someoneWon(i, j, -1, -1, 3, 1)) score -= 50;
+          else if (someoneWon(i, j, -1, 1, 3, 1)) score -= 50;
         }
       }
     }
