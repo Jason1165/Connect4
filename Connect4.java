@@ -31,7 +31,7 @@ public class Connect4 {
 
   private void fill() {
     for (int i = 0; i < board.length; i++) {
-      for (int j = 0; j < board[0].length; j++) {
+      for (int j = 0; j < board[i].length; j++) {
         board[i][j] = '0';
       }
     }
@@ -40,7 +40,7 @@ public class Connect4 {
   public String toString() {
     String str = "";
     for (int i = 0; i < board.length; i++) {
-      for (int j = 0; j < board[0].length; j++) {
+      for (int j = 0; j < board[i].length; j++) {
         str += board[i][j];
       }
       str += "\n";
@@ -69,6 +69,32 @@ public class Connect4 {
       return true;
     }
     return false;
+  }
+
+  public boolean someoneWon() {
+    for (int i = 0; i < board.length; i++) {
+      for (int j = 0; j < board[i].length; j++) {
+        if (board[i][j] != '0') {
+          boolean up = someoneWon(i, j, -1, 0, 4);
+          boolean right = someoneWon(i, j, 0, 1, 4);
+          boolean diagL = someoneWon(i, j, -1, -1, 4);
+          boolean diagR = someoneWon(i, j, -1, 1, 4);
+          if (up || right || diagL || diagR) {
+            return true;
+          }
+        }
+      }
+    }
+    return false;
+  }
+
+  private boolean someoneWon(int x, int y, int xInc, int yInc, int num) {
+    for (int i = 0; i < num; i++) {
+      if (!(board[x][y] == board[x + xInc*i][y + yInc*i])) {
+        return false;
+      }
+    }
+    return true;
   }
 
 }
