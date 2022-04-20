@@ -76,10 +76,10 @@ public class Connect4 {
     for (int i = 0; i < board.length; i++) {
       for (int j = 0; j < board[i].length; j++) {
         if (board[i][j] != '0') {
-          boolean up = someoneWon(i, j, -1, 0, 4);
-          boolean right = someoneWon(i, j, 0, 1, 4);
-          boolean diagL = someoneWon(i, j, -1, -1, 4);
-          boolean diagR = someoneWon(i, j, -1, 1, 4);
+          boolean up = someoneWon(i, j, -1, 0, 4, 0);
+          boolean right = someoneWon(i, j, 0, 1, 4, 0);
+          boolean diagL = someoneWon(i, j, -1, -1, 4, 0);
+          boolean diagR = someoneWon(i, j, -1, 1, 4, 0);
           if (up || right || diagL || diagR) {
             return true;
           }
@@ -89,16 +89,33 @@ public class Connect4 {
     return false;
   }
 
-  private boolean someoneWon(int x, int y, int xInc, int yInc, int num) {
+  private boolean someoneWon(int x, int y, int xInc, int yInc, int num, int space) {
     if (x + xInc*num >= board.length || x + xInc*num < 0 || y + yInc*num >= board[x].length || y + yInc*num < 0) {
       return false;
     }
-    for (int i = 0; i < num; i++) {
-      if (!(board[x][y] == board[x + xInc*i][y + yInc*i])) {
-        return false;
+    for (int i = 0; i < num + space; i++) {
+      if (i > num) {
+        if (board[x + xInc*i][y + yInc*i] != '0') {
+          return false;
+        }
+      }
+      else {
+        if (!(board[x][y] == board[x + xInc*i][y + yInc*i])) {
+          return false;
+        }
       }
     }
     return true;
+  }
+
+  private int boardScore() {
+    int score = 0;
+    for (int i = 0; i < board.length; i++) {
+      for (int j = 0; j < board[0].length; j++) {
+
+      }
+    }
+    return score;
   }
 
 }
