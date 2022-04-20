@@ -21,7 +21,7 @@ void draw() {
   background(0, 0, 255);
   String [] lines = game.toString().split("\n");
   stringToCircle(lines);
-  if (game.someoneWon()) {
+  if (game.someoneWon('R') || game.someoneWon('Y')) {
     v = true;
     if (frameCount % 500 == 0)
       println("Someone Won, press R to Restart");
@@ -52,8 +52,8 @@ void stringToCircle(String[] lines) {
 void mouseClicked() {
   if (!v) {
     int mx = mouseX - RO;
-    println(mouseX);
     game.insertChip(mx / 100);
+    println("Bot Score: " + game.boardScore('Y'));
   }
 }
 

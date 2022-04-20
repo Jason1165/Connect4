@@ -72,14 +72,33 @@ public class Connect4 {
     return false;
   }
 
-  public boolean someoneWon() {
+  public boolean removeChip(int column) {
+    if (column >= board[0].length || column < 0) {
+      return false;
+    }
+    int position = -1;
+    for (int i = 0; i < board.length; i++) {
+      if (board[i][column] == '0') {
+        position = i;
+      }
+    }
+    position += 1;
+    if (position < board.length) {
+      board[position][column] = '0';
+      toggleTurn();
+      return true;
+    }
+    return false;
+  }
+
+  public boolean someoneWon(char c) {
     for (int i = 0; i < board.length; i++) {
       for (int j = 0; j < board[i].length; j++) {
-        if (board[i][j] != '0') {
-          boolean up = someoneWon(i, j, -1, 0, 4);
-          boolean right = someoneWon(i, j, 0, 1, 4);
-          boolean diagL = someoneWon(i, j, -1, -1, 4);
-          boolean diagR = someoneWon(i, j, -1, 1, 4);
+        if (board[i][j] == c) {
+          boolean up = someoneWon(i, j, -1, 0, 4, 0);
+          boolean right = someoneWon(i, j, 0, 1, 4, 0);
+          boolean diagL = someoneWon(i, j, -1, -1, 4, 0);
+          boolean diagR = someoneWon(i, j, -1, 1, 4, 0);
           if (up || right || diagL || diagR) {
             return true;
           }
@@ -89,16 +108,56 @@ public class Connect4 {
     return false;
   }
 
-  private boolean someoneWon(int x, int y, int xInc, int yInc, int num) {
+  private boolean someoneWon(int x, int y, int xInc, int yInc, int num, int space) {
     if (x + xInc*num >= board.length || x + xInc*num < 0 || y + yInc*num >= board[x].length || y + yInc*num < 0) {
       return false;
     }
-    for (int i = 0; i < num; i++) {
-      if (!(board[x][y] == board[x + xInc*i][y + yInc*i])) {
-        return false;
+    for (int i = 0; i < num + space; i++) {
+      if (i >= num) {
+        if (board[x + xInc*i][y + yInc*i] != '0') {
+          return false;
+        }
+      }
+      else {
+        if (!(board[x][y] == board[x + xInc*i][y + yInc*i])) {
+          return false;
+        }
       }
     }
     return true;
+  }
+
+  public int boardScore(char c) {
+    int score = 0;
+    for (int i = 0; i < board.length; i++) {
+      for (int j = 0; j < board[0].length; j++) {
+        if (board[i][j] == c) {
+          if (someoneWon(i, j, -1, 0, 4, 0)) score += 100;
+          else if (someoneWon(i, j, 0, -1, 4, 0)) score += 100;
+          else if (someoneWon(i, j, 0, 1, 4, 0)) score += 100;
+          else if (someoneWon(i, j, -1, -1, 4, 0)) score += 100;
+          else if (someoneWon(i, j, -1, 1, 4, 0)) score += 100;
+          else if (someoneWon(i, j, -1, 0, 3, 1)) score += 50;
+          else if (someoneWon(i, j, 0, -1, 3, 1)) score += 50;
+          else if (someoneWon(i, j, 0, 1, 3, 1)) score += 50;
+          else if (someoneWon(i, j, -1, -1, 3, 1)) score += 50;
+          else if (someoneWon(i, j, -1, 1, 3, 1)) score += 50;
+          else if (someoneWon(i, j, -1, 0, 2, 2)) score += 20;
+          else if (someoneWon(i, j, 0, -1, 3, 1)) score += 20;
+          else if (someoneWon(i, j, 0, 1, 2, 2)) score += 20;
+          else if (someoneWon(i, j, -1, -1, 2, 2)) score += 20;
+          else if (someoneWon(i, j, -1, 1, 2, 2)) score += 20;
+        }
+        else {
+          if (someoneWon(i, j, -1, 0, 3, 1)) score -= 50;
+          else if (someoneWon(i, j, 0, -1, 3, 1)) score -= 50;
+          else if (someoneWon(i, j, 0, 1, 3, 1)) score -= 50;
+          else if (someoneWon(i, j, -1, -1, 3, 1)) score -= 50;
+          else if (someoneWon(i, j, -1, 1, 3, 1)) score -= 50;
+        }
+      }
+    }
+    return score;
   }
 
 }
